@@ -1,0 +1,51 @@
+@baseUrl = http://localhost:3000
+@authToken = {{authenticate.response.body.access_token}}
+
+# Create account
+POST {{baseUrl}}/accounts
+Content-Type: application/json
+
+{
+    "name": "John Doe",
+    "email": "exampledasdasdas@test.com",
+    "password": "123456"
+}
+
+###
+
+# @name authenticate
+POST {{baseUrl}}/sessions
+Content-Type: application/json
+
+{
+    "email": "andrevvalle8@icloud.com",
+    "password": "123456"
+}
+
+###
+
+# @name create-movie
+POST {{baseUrl}}/create-movie
+Content-Type: application/json
+Authorization: Bearer {{authToken}}
+
+{
+    "title": "Interstellar",
+    "year": 2014,
+    "director": "Christopher Nolan",
+    "genre": "Sci-Fi",
+    "synopsis": "A team of explorers travel through a wormhole in space in an attempt to ensure humanity's survival.",
+    "actors": [
+        "Matthew McConaughey",
+        "Anne Hathaway",
+        "Jessica Chastain",
+        "Michael Caine"
+    ],
+    "image": "https://example.com/movie_2.jpg"
+}
+
+###
+
+# @name get-movie
+GET {{baseUrl}}/movies?search=space
+Content-Type: application/json

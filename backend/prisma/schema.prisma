@@ -21,43 +21,48 @@ enum UserStatus {
 }
 
 model User {
-  id        String   @id @default(uuid())
-  email     String   @unique
+  id        String     @id @default(uuid())
+  email     String     @unique
   name      String?
   password  String
-  role      Role     @default(USER)
+  role      Role       @default(USER)
   status    UserStatus @default(ACTIVE)
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+  createdAt DateTime   @default(now())
+  updatedAt DateTime   @updatedAt
   ratings   Rating[]
+  Movie     Movie[]
 
   @@map("users")
 }
 
 model Movie {
-  id        String   @id @default(uuid())
+  id        String    @id @default(uuid())
   title     String
   year      Int
   director  String
-  genre     String @unique
+  genre     String
+  synopsis  String
   actors    String[]
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+  image     String
+  createdAt DateTime  @default(now())
+  updatedAt DateTime? @updatedAt
   ratings   Rating[]
+  authorId  String
+
+  author User @relation(fields: [authorId], references: [id])
 
   @@map("movies")
 }
 
 model Rating {
-  id        String   @id @default(uuid())
+  id        String    @id @default(uuid())
   value     Int
   movieId   String
-  Movie     Movie   @relation(fields: [movieId], references: [id])
+  Movie     Movie     @relation(fields: [movieId], references: [id])
   userId    String
-  User      User    @relation(fields: [userId], references: [id])
-  createdAt DateTime @default(now())
+  User      User      @relation(fields: [userId], references: [id])
+  createdAt DateTime  @default(now())
   updatedAt DateTime? @updatedAt
 
   @@map("ratings")
 }
-
