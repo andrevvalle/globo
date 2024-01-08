@@ -2,10 +2,15 @@ import * as z from 'zod'
 import { Controller, Get, Query, UsePipes } from '@nestjs/common'
 import { PrismaService } from '../prisma/prisma.service'
 import { ZodValidationPipe } from 'src/pipes/zod-validation-pipe'
-// import { Prisma } from '@prisma/client'
 
 const queryParamSchema = z.object({
   search: z.string().optional(),
+  page: z
+    .string()
+    .optional()
+    .default('1')
+    .transform(Number)
+    .pipe(z.number().min(1)),
 })
 // page: z
 //   .string()
@@ -31,8 +36,8 @@ export class GetMoviesController {
   @Get()
   @UsePipes(new ZodValidationPipe(queryParamSchema))
   async getMovies(@Query() query: z.infer<typeof queryParamSchema>) {
-    // const { search, page, limit, year, sort, genre, actor, director } = query
-    const { search } = query
+    const perPage = 10
+    const { search, page } = query
     let filter = {}
 
     if (search) {
@@ -91,14 +96,15 @@ export class GetMoviesController {
 
     const movies = await this.prisma.movie.findMany({
       where: filter,
-      // take: limit,
-      // skip: (page - 1) * limit,
-      // orderBy: {
-      //   createdAt: sort as Prisma.SortOrder,
-      // },
+      take: perPage,
+      skip: (page - 1) * perPage,
+      orderBy: {
+        createdAt: 'desc',
+      },
     })
 
     return {
+      size: movies.length,
       movies,
     }
   }
