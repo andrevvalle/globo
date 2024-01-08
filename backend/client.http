@@ -18,7 +18,7 @@ POST {{baseUrl}}/sessions
 Content-Type: application/json
 
 {
-    "email": "andrevvalle8@icloud.com",
+    "email": "example@test.com",
     "password": "123456"
 }
 
@@ -47,5 +47,17 @@ Authorization: Bearer {{authToken}}
 ###
 
 # @name get-movie
-GET {{baseUrl}}/movies?search=space
+GET {{baseUrl}}/movies?search=inter&page=1
 Content-Type: application/json
+
+###
+
+# @name post-rating
+POST {{baseUrl}}/vote
+Content-Type: application/json
+Authorization: Bearer {{authToken}}
+
+{
+    "movieId": "9f8469ec-3dc4-4b06-a612-9d29590cca3e",
+    "value": 4
+}
