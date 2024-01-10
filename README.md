@@ -35,7 +35,7 @@
    ```
 5. Inicie o serviço PostgreSQL. Se estiver usando Docker, pode executar:
    ```bash
-   docker run --name postgres -e POSTGRES_PASSWORD=password -p 5432:5432 -d postgres
+   docker-compose up -d
    ```
    Altere `password` para sua senha desejada.
 6. Execute as migrações do banco de dados:
