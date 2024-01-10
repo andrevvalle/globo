@@ -1,4 +1,4 @@
-import { Module, Post } from '@nestjs/common'
+import { Module } from '@nestjs/common'
 import { ConfigModule } from '@nestjs/config'
 import { PrismaService } from './prisma/prisma.service'
 import { AuthModule } from './auth/auth.module'
@@ -8,6 +8,7 @@ import { AuthenticateController } from './controllers/authenticate.controller'
 import { CreateMovieController } from './controllers/create-movie.controller'
 import { GetMoviesController } from './controllers/get-movies.controller'
 import { PostRatingController } from './controllers/post-rating.controller'
+import { MovieAggregatesController } from './controllers/get-movies-aggregates.controller'
 
 import { envSchema } from './env'
 
@@ -25,6 +26,7 @@ import { envSchema } from './env'
     CreateMovieController,
     GetMoviesController,
     PostRatingController,
+    MovieAggregatesController,
   ],
   providers: [PrismaService],
 })

@@ -1,3 +1,4 @@
+import * as cors from 'cors'
 import { NestFactory } from '@nestjs/core'
 import { AppModule } from './app.module'
 import { ConfigService } from '@nestjs/config'
@@ -8,6 +9,8 @@ async function bootstrap() {
 
   const configService: ConfigService<Env, true> = app.get(ConfigService)
   const port = configService.get('PORT', { infer: true })
+
+  app.use(cors())
 
   await app.listen(port)
 }

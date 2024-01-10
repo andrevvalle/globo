@@ -1,4 +1,4 @@
-@baseUrl = http://localhost:3000
+@baseUrl = http://localhost:3333
 @authToken = {{authenticate.response.body.access_token}}
 
 # Create account
@@ -7,7 +7,7 @@ Content-Type: application/json
 
 {
     "name": "John Doe",
-    "email": "exampledasdasdas",
+    "email": "admin@root.com",
     "password": "123456"
 }
 
@@ -18,7 +18,7 @@ POST {{baseUrl}}/sessions
 Content-Type: application/json
 
 {
-    "email": "example@test.com",
+    "email": "admin@root.com",
     "password": "123456"
 }
 
@@ -47,7 +47,18 @@ Authorization: Bearer {{authToken}}
 ###
 
 # @name get-movie
-GET {{baseUrl}}/movies?search=inter&page=1
+GET {{baseUrl}}/movies?page=2
+Content-Type: application/json
+
+###
+
+# @name get-movie-aggregate-directors
+GET {{baseUrl}}/movie-aggregates/directors
+Content-Type: application/json
+###
+
+# @name get-movie-aggregate-genres
+GET {{baseUrl}}/movie-aggregates/genres
 Content-Type: application/json
 
 ###

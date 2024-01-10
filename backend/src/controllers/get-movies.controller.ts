@@ -26,7 +26,6 @@ export class GetMoviesController {
 
     if (search) {
       filter = {
-        ...filter,
         OR: [
           { title: { contains: search, mode: 'insensitive' } },
           { synopsis: { contains: search, mode: 'insensitive' } },
@@ -36,18 +35,33 @@ export class GetMoviesController {
       }
     }
 
-    const movies = await this.prisma.movie.findMany({
-      where: filter,
-      take: perPage,
-      skip: (page - 1) * perPage,
-      orderBy: {
-        createdAt: 'desc',
-      },
-    })
+    const [movies, totalItems] = await Promise.all([
+      this.prisma.movie.findMany({
+        where: filter,
+        take: perPage,
+        skip: (page - 1) * perPage,
+        orderBy: { createdAt: 'desc' },
+      }),
+      this.prisma.movie.count({ where: filter }),
+    ])
+
+    const createLink = (page) =>
+      `/?${search ? `search=${search}&` : ''}page=${page}`
 
     return {
+      totalItems,
       size: movies.length,
-      movies,
+      itemsPerPage: perPage,
+      currentPage: page,
+      totalPages: Math.ceil(totalItems / perPage),
+      data: movies,
+      links: {
+        first: createLink(1),
+        previous: page > 1 ? createLink(page - 1) : null,
+        next:
+          page < Math.ceil(totalItems / perPage) ? createLink(page + 1) : null,
+        last: createLink(Math.ceil(totalItems / perPage)),
+      },
     }
   }
 }
