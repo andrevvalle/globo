@@ -52,6 +52,12 @@ Content-Type: application/json
 
 ###
 
+# @name get-movie-by-id
+GET {{baseUrl}}/movies/584346da-5244-4e5a-b51f-45eff19d04a8
+Content-Type: application/json
+
+###
+
 # @name get-movie-aggregate-directors
 GET {{baseUrl}}/movie-aggregates/directors
 Content-Type: application/json

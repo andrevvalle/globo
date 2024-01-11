@@ -1,18 +1,26 @@
-// seed.ts
 import { PrismaClient } from '@prisma/client'
 
 const prisma = new PrismaClient()
 
 async function main() {
-  await prisma.user.create({
-    data: {
-      id: 'bc5dc53e-dd81-4030-9b6f-7f0d2aefc9f7',
-      email: 'admin@root.com',
-      password: '$2a$10$j6dfCes0QvLJ.ubpf.X8Uefd32C3gLsCFawPo5LV8UdCtNwWCxU.u',
-      name: 'Admin',
+  const adminUser = await prisma.user.findFirst({
+    where: {
       role: 'ADMIN',
     },
   })
+
+  if (!adminUser) {
+    await prisma.user.create({
+      data: {
+        id: 'bc5dc53e-dd81-4030-9b6f-7f0d2aefc9f7',
+        email: 'admin@root.com',
+        password:
+          '$2a$10$j6dfCes0QvLJ.ubpf.X8Uefd32C3gLsCFawPo5LV8UdCtNwWCxU.u',
+        name: 'Admin',
+        role: 'ADMIN',
+      },
+    })
+  }
 
   const movies = [
     {
@@ -292,14 +300,19 @@ async function main() {
     },
   ]
 
-  for (const movie of movies) {
-    await prisma.movie.create({ data: movie })
+  const hasMovies = await prisma.movie.findFirst()
+
+  if (!hasMovies) {
+    for (const movie of movies) {
+      await prisma.movie.create({ data: movie })
+    }
   }
 }
 
 main()
-  .catch((e) => {
-    throw e
+  .catch((error) => {
+    console.error(error)
+    process.exit(1)
   })
   .finally(async () => {
     await prisma.$disconnect()

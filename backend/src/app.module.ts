@@ -7,6 +7,7 @@ import { CreateAccountController } from './controllers/create-account.controller
 import { AuthenticateController } from './controllers/authenticate.controller'
 import { CreateMovieController } from './controllers/create-movie.controller'
 import { GetMoviesController } from './controllers/get-movies.controller'
+import { GetMovieIdController } from './controllers/get-movie-id.controller'
 import { PostRatingController } from './controllers/post-rating.controller'
 import { MovieAggregatesController } from './controllers/get-movies-aggregates.controller'
 
@@ -25,6 +26,7 @@ import { envSchema } from './env'
     AuthenticateController,
     CreateMovieController,
     GetMoviesController,
+    GetMovieIdController,
     PostRatingController,
     MovieAggregatesController,
   ],

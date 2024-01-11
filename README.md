@@ -11,7 +11,7 @@
 
 - Node.js
 - PostgreSQL
-- Docker (opcional, mas recomendado para ambiente de desenvolvimento)
+- Docker
 
 ### Instalação - BACKEND
 
